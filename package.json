@@ -10,6 +10,7 @@
     "Other"
   ],
   "publisher": "kingeast",
+  "repository": "https://github.com/wdaglb/y3-autoload-vscode",
   "activationEvents": [
     "onStartupFinished"
   ],
