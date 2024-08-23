@@ -2,7 +2,7 @@
   "name": "y3-autoload-vscode",
   "displayName": "y3-autoload-vscode",
   "description": "",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "engines": {
     "vscode": "^1.92.0"
   },

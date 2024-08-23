@@ -1,9 +1,7 @@
 # Change Log
 
-## [Unreleased]
-
-- Initial release
-
 ### [Added]
 
+- v0.0.4 修复指定文件导入可能导致重复导入|支持精确匹配
+- v0.0.3 增加指定文件优先引入
 - v0.0.2 修复文件变更监听未启动

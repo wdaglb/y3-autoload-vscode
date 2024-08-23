@@ -111,14 +111,26 @@ async function generatorAutoloadFile(dir: vscode.WorkspaceFolder, scanConf: Conf
 		// 置顶指定的规则
 		if (scanConf.top) {
 			let top: string[] = [];
-			list.forEach(file => {
-				for (const ele of scanConf.top!) {
-					if (minimatch(file, scanConf.scan_path + ele)) {
+			for (const ele of scanConf.top!) {
+				list.forEach(file => {
+					const val = scanConf.scan_path + ele;
+					if (file === val || minimatch(file, val)) {
 						top.push(file);
 					}
+				});
+			}
+			let result: string[] = [];
+			top.forEach(item => {
+				if (!result.includes(item)) {
+					result.push(item);
 				}
 			});
-			list = top.concat(list.filter((item) => !top.includes(item)));
+			list.forEach(item => {
+				if (!result.includes(item)) {
+					result.push(item);
+				}
+			});
+			list = result;
 		}
 		list.forEach(item => {
 			convert.addFile(item);
