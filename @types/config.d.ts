@@ -26,4 +26,8 @@ declare interface ConfigItem {
      * 过滤规则
      */
     exclude?: string[];
+    /**
+     * 置顶规则
+     */
+    top?: string[];
 }

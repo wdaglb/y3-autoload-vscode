@@ -89,6 +89,7 @@ async function generatorAutoloadFile(dir: vscode.WorkspaceFolder, scanConf: Conf
 			return a.path.localeCompare(b.path);
 		});
 		
+		let list = [];
 		for (const r of sortedFiles) {
 			const src = r.fsPath.replace(dir.uri.fsPath + path.sep, '').replace(/\\/g, '/');
 			let isFilter = false;
@@ -97,16 +98,31 @@ async function generatorAutoloadFile(dir: vscode.WorkspaceFolder, scanConf: Conf
 			}
 			if (scanConf.exclude) {
 				for (const ele of scanConf.exclude) {
-					if (minimatch(src, ele)) {
+					if (minimatch(src, scanConf.scan_path + ele)) {
 						isFilter = true;
 						break;
 					}
 				}
 			}
 			if (!isFilter) {
-				convert.addFile(src);
+				list.push(src);
 			}
 		}
+		// 置顶指定的规则
+		if (scanConf.top) {
+			let top: string[] = [];
+			list.forEach(file => {
+				for (const ele of scanConf.top!) {
+					if (minimatch(file, scanConf.scan_path + ele)) {
+						top.push(file);
+					}
+				}
+			});
+			list = top.concat(list.filter((item) => !top.includes(item)));
+		}
+		list.forEach(item => {
+			convert.addFile(item);
+		});
 	}
 	const saveFile = path.join(dir.uri.fsPath, scanConf.output_file);
 	const content = convert.toString();
